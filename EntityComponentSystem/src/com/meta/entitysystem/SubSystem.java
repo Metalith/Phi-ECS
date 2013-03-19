@@ -13,15 +13,15 @@ public abstract class SubSystem {
 		if (globalEngine == null)
 			throw new IllegalStateException("No engine set; Please create an engine;");
 		globalEngine.addSystem(this);
-		systemBits = new ArrayList<>();
-		entityList = new ArrayList<>();	
+		systemBits = new ArrayList<Integer>();
+		entityList = new ArrayList<UUID>();	
 		
 		for(Class<?> c : componentCheck)
 			setBits(c);
 	}
 	
 	/** Stub method to be overridden by the user  */
-	public abstract void process();
+	protected abstract void process();
 	
 	private void setBits(Class<?> componentType) {
 		systemBits.add(globalEngine.getIndex(componentType));

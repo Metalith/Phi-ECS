@@ -3,33 +3,39 @@ package com.meta.entitysystem;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.UUID;
 
 public class Engine {
 	private ArrayList<UUID> entityList;
+	private HashMap<UUID,String> entityNames;
+	
 	private HashMap<UUID, BitSet> entityBits; //TODO: Refactor this into seperate managers
 	// Specifically a component and entity, with a possible system
 	// With this engine class managing all of them 
-	private HashMap<String, ArrayList<UUID>> entityGroups;
+	 //TODO: Possibly
+//	private HashMap<String, ArrayList<UUID>> entityGroups;
 
 	private HashMap<Class<? extends Component>, HashMap<UUID, Component>> componentMap;
 	private HashMap<Class<? extends Component>, Integer> componentIndexes; //TODO: Change to ArrayList
 
-	private ArrayList<SubSystem> systemsList;
+	private LinkedList<SubSystem> systemsList;
 
 	private ArrayList<UUID> addedEntities;
 
 
 
 	public Engine() {
-		entityList = new ArrayList<>();
-		entityBits = new HashMap<>();
-		entityGroups = new HashMap<>();
-		componentMap = new HashMap<>();
-		componentIndexes = new HashMap<>();
-		systemsList = new ArrayList<>();
+		entityList = new ArrayList<UUID>();
+		entityBits = new HashMap<UUID, BitSet>();
+		entityNames = new HashMap<UUID, String>();
+		//TODO: add maybe
+//		entityGroups = new HashMap<String, ArrayList<UUID>>();
+		componentMap = new HashMap<Class<? extends Component>, HashMap<UUID, Component>>();
+		componentIndexes = new HashMap<Class<? extends Component>, Integer>();
+		systemsList = new LinkedList<SubSystem>();
 
-		addedEntities = new ArrayList<>();
+		addedEntities = new ArrayList<UUID>();
 
 		Entity.engine = this;
 		SubSystem.globalEngine = this;
@@ -40,10 +46,10 @@ public class Engine {
 	 */
 	public void update() {
 		for (UUID entity : addedEntities) {
-			addEntity(entity);
+			for (SubSystem system : systemsList)
+				system.add(entity);
 		}
 		addedEntities.clear();
-
 		for(SubSystem system : systemsList) {
 			system.process();
 		}
@@ -56,6 +62,16 @@ public class Engine {
 		entityBits.put(id, new BitSet());
 		return id;
 	}
+	
+	public UUID createEntity(String name) {
+		UUID id = createEntity();
+		entityNames.put(id, name);
+		return id;
+	}
+	
+	public String getName(UUID e) {
+		return entityNames.get(e);
+	}
 
 	public void addComponent(UUID entity,Component component) {
 		BitSet componentBits = entityBits.get(entity);
@@ -63,10 +79,11 @@ public class Engine {
 		entityBits.put(entity, componentBits);
 
 		HashMap<UUID, Component> componentList = componentMap.get(component.getClass());
-		if (componentList == null) 
-			componentList = new HashMap<>();
-			componentList.put(entity, component);
-			componentMap.put(component.getClass(), componentList);
+		if (componentList == null) {
+			componentList = new HashMap<UUID, Component>();
+		}
+		componentList.put(entity, component);
+		componentMap.put(component.getClass(), componentList);
 
 	}
 
@@ -95,10 +112,5 @@ public class Engine {
 
 	public void addSystem(SubSystem subSystem) {
 		systemsList.add(subSystem);
-	}
-
-	private void addEntity(UUID entity) {
-		for (SubSystem system : systemsList)
-			system.add(entity);
 	}
 }
