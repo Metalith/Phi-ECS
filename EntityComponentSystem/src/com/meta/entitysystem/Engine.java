@@ -22,6 +22,7 @@ public class Engine {
 	private LinkedList<SubSystem> systemsList;
 
 	private ArrayList<UUID> addedEntities;
+	private ArrayList<UUID> delEntities;
 
 
 
@@ -68,6 +69,7 @@ public class Engine {
 		entityNames.put(id, name);
 		return id;
 	}
+	
 	
 	public String getName(UUID e) {
 		return entityNames.get(e);

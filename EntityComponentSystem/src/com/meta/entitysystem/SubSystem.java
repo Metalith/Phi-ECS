@@ -27,19 +27,34 @@ public abstract class SubSystem {
 		systemBits.add(globalEngine.getIndex(componentType));
 	}
 	
-	private boolean check(UUID entity) {
+	public boolean check(UUID entity) {
 		Boolean match = true;
 		BitSet entityBits = globalEngine.getBitSet(entity);
 		for (int index : systemBits) {
 			if (!entityBits.get(index))
 				match = false;
 		}
-		System.out.println(match);
+		if (match && !entityList.contains(entity)) {
+			entityList.add(entity);
+			add(entity);
+		}
+		else if (!match && entityList.contains(entity)) {
+			entityList.remove(entity);
+			remove(entity);
+		}
 		return match;
 	}
 	
-	protected void add(UUID entity) {
-		if (check(entity))
-			entityList.add(entity);
-	}
+	/**
+	 *  This function is called everytime an entity is added 
+	 * @param Entity that was added 
+	 */
+	protected abstract void add(UUID entity);
+	
+
+	/**
+	 *  This function is called everytime an entity is removed 
+	 * @param Entity that was removed
+	 */
+	protected abstract void remove(UUID entity);
 }

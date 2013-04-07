@@ -17,9 +17,16 @@ public class Entity {
 			throw new IllegalStateException("No engine set; Please create an engine;");
 		id = engine.createEntity();
 	}
-
+	
+	public Entity(String name) {
+		if (engine == null)
+			throw new IllegalStateException("No engine set; Please create an engine;");
+		id = engine.createEntity(name);
+	}
+	
 	public void addComponent(Component component) { engine.addComponent(id, component); }
 
+	@SuppressWarnings("unchecked")
 	public <T extends Component> T getComponent(Class<T> component) { 
 		Component c = engine.getComponent(id, component);
 		return (T) c;
