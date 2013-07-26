@@ -29,6 +29,7 @@ public abstract class SubSystem {
 	
 	protected void delete(UUID entity) {
 		entityList.remove(entity);
+		remove(entity);
 	}
 	
 	public boolean check(UUID entity) {
