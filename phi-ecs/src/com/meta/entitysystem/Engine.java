@@ -39,6 +39,7 @@ public class Engine {
 		systemsList = new LinkedList<SubSystem>();
 
 		addedEntities = new ArrayList<UUID>();
+		deletedEntities = new ArrayList<UUID>();
 
 		Entity.engine = this;
 		SubSystem.engine = this;
