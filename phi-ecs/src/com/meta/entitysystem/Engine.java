@@ -58,9 +58,9 @@ public class Engine {
 		addedEntities.clear();
 		for (UUID entity : deletedEntities) {
 			for (SubSystem system : systemsList) {
-				system.check(entity);
+				system.delete(entity);
 				if (renderSystem != null)
-					renderSystem.check(entity);
+					renderSystem.delete(entity);
 			}
 			entityList.remove(entity);
 			entityBits.remove(entity);
