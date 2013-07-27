@@ -72,6 +72,7 @@ public class Engine {
 			}
 			entity = null;
 		}
+		deletedEntities.clear();
 		for(SubSystem system : systemsList) {
 			system.process();
 		}
