@@ -12,7 +12,7 @@ public abstract class SubSystem {
 	public SubSystem(Class<?>... componentCheck) {
 		if (engine == null)
 			throw new IllegalStateException("No engine set; Please create an engine;");
-		engine.addSystem(this);
+//		engine.addSystem(this);
 		systemBits = new ArrayList<Integer>();
 		entityList = new ArrayList<UUID>();	
 		

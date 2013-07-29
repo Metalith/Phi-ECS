@@ -3,8 +3,8 @@ package com.meta.entitysystem;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.UUID;
+
 
 public class Engine {
 	//TODO: Too many lists. Refactor into just a few necessary lists
@@ -18,14 +18,13 @@ public class Engine {
 	private HashMap<Class<? extends Component>, HashMap<UUID, Component>> componentMap;
 	private HashMap<Class<? extends Component>, Integer> componentIndexes; //TODO: Change to ArrayList
 
-	private LinkedList<SubSystem> systemsList;
+	private ArrayList<SubSystem> systemsList;
 
 	// If the code using the framework requires a dedicated render system
 	private SubSystem renderSystem;
 
 	private ArrayList<UUID> addedEntities;
 	private ArrayList<UUID> deletedEntities;
-
 
 
 	public Engine() {
@@ -36,7 +35,7 @@ public class Engine {
 		//		entityGroups = new HashMap<String, ArrayList<UUID>>();
 		componentMap = new HashMap<Class<? extends Component>, HashMap<UUID, Component>>();
 		componentIndexes = new HashMap<Class<? extends Component>, Integer>();
-		systemsList = new LinkedList<SubSystem>();
+		systemsList = new ArrayList<SubSystem>();
 
 		addedEntities = new ArrayList<UUID>();
 		deletedEntities = new ArrayList<UUID>();
@@ -73,7 +72,7 @@ public class Engine {
 			entity = null;
 		}
 		deletedEntities.clear();
-		for(SubSystem system : systemsList) {
+		for (SubSystem system : systemsList) {
 			system.process();
 		}
 	}
