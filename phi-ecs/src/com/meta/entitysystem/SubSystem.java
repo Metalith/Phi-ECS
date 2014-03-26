@@ -32,6 +32,11 @@ public abstract class SubSystem {
 		remove(entity);
 	}
 	
+	/**
+	 * This Function checks whether an entity is to be assigned to this system or removed from it
+	 * @param entity to check
+	 * @return true if the entity matched the system
+	 */
 	public boolean check(UUID entity) {
 		Boolean match = true;
 		BitSet entityBits = engine.getBitSet(entity);

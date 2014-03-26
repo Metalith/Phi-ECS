@@ -1,4 +1,4 @@
 package com.meta.entitysystem;
 
-public abstract class Component {
-}
+//Just a wrapper for a set of classes
+public abstract class Component {}

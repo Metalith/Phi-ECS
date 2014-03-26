@@ -7,20 +7,18 @@ import java.util.UUID;
 
 
 public class Engine {
-	//TODO: Too many lists. Refactor into just a few necessary lists
 	private ArrayList<UUID> entityList; // Not sure if this is still needed
 	private HashMap<UUID,String> entityNames; //Not sure if this is still needed
 
-	private HashMap<UUID, BitSet> entityBits; //TODO: Refactor this into seperate managers
-	// Specifically a component and entity, with a possible system
-	// With this engine class managing all of them 
+	// TODO: Possibly replace this with an int and perform manual bitwise operations to improve speed
+	private HashMap<UUID, BitSet> entityBits;
 
 	private HashMap<Class<? extends Component>, HashMap<UUID, Component>> componentMap;
-	private HashMap<Class<? extends Component>, Integer> componentIndexes; //TODO: Change to ArrayList
+	private HashMap<Class<? extends Component>, Integer> componentIndexes; //TODO: Change to ArrayList??
 
 	private ArrayList<SubSystem> systemsList;
 
-	// If the code using the framework requires a dedicated render system
+	// Made this its own... thing so that the game loop logic can split between updating logic and rendering
 	private SubSystem renderSystem;
 
 	private ArrayList<UUID> addedEntities;
@@ -31,8 +29,6 @@ public class Engine {
 		entityList = new ArrayList<UUID>();
 		entityBits = new HashMap<UUID, BitSet>();
 		entityNames = new HashMap<UUID, String>();
-		//TODO: add maybe
-		//		entityGroups = new HashMap<String, ArrayList<UUID>>();
 		componentMap = new HashMap<Class<? extends Component>, HashMap<UUID, Component>>();
 		componentIndexes = new HashMap<Class<? extends Component>, Integer>();
 		systemsList = new ArrayList<SubSystem>();
@@ -128,17 +124,15 @@ public class Engine {
 
 	/** Stub that may or may not be needed in the future */
 	public BitSet getBitSet(UUID e) { 
-		System.out.println(entityBits.get(e).toString());
 		return entityBits.get(e);
 	}
 
 	@SuppressWarnings("unchecked")
 	public int getIndex(Class<?>  componentType) {
 		Integer index = componentIndexes.get(componentType);
-		System.out.println(index);
 		if (index == null)  {
 			index = componentIndexes.size();
-			componentIndexes.put((Class<? extends Component>) componentType, index); //TODO: watch the cast of this
+			componentIndexes.put((Class<? extends Component>) componentType, index); //TODO: watch the cast of this... its really wierd
 		}
 		return index;
 	}
